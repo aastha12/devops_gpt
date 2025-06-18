@@ -5,7 +5,8 @@ from pymongo.collection import Collection
 from pymongo.database import Database
 from dotenv import load_dotenv
 import os
-
+from utils.secrets_helper import get_secret
+from utils.config import DB_NAME
 load_dotenv()
 
 class AtlasConnection:
@@ -16,8 +17,9 @@ class AtlasConnection:
         :param uri: MongoDB connection URI.
         :param server_api: Server API version (default is '1').
         """
-        self.client: MongoClient = MongoClient(os.getenv("ATLAS_URI"))
-        self.database: Database = self.client[os.getenv("DB_NAME")]
+        atlas_uri = get_secret("atlas-uri", "ATLAS_URI")
+        self.client: MongoClient = MongoClient(atlas_uri)
+        self.database: Database = self.client[DB_NAME]
     
 
     def ping(self):

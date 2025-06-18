@@ -1,0 +1,46 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: devpost-ai-app
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "10"
+        run.googleapis.com/vpc-access-connector: "mongodb-connector"
+        run.googleapis.com/vpc-access-egress: "all-traffic"
+        run.googleapis.com/cpu-throttling: "false"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 900
+      containers:
+      - image: gcr.io/devpost-ai-in-action/devpost-ai-app
+        ports:
+        - containerPort: 8080
+        env:
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "devpost-ai-in-action"
+        - name: DB_NAME
+          value: "gitlab"
+        - name: COLLECTION_NAME
+          value: "incidents"
+        - name: GITLAB_URL
+          value: "https://gitlab.com"
+        - name: GITLAB_PROJECT_URL
+          value: "gitlab-com/gl-infra/production"
+        - name: INCIDENTS_PATH
+          value: "data/incidents.pkl"
+        resources:
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 10

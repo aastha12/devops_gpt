@@ -33,9 +33,17 @@ JUDGE_PROMPT = """
         <step2>Assess requirements adherence: Does the response meet specific requirements from the instruction such as format, tone, word count, or required content?</step2>
     </evaluation_steps>
 
-    <input_output>
+    <input>
         <user_prompt>{prompt}</user_prompt>
         <ai_response>{response}</ai_response>
-    </input_output>
+    </input>
+
+    <output> 
+        Please provide your evaluation in the following format:
+        ### Score: X/5
+
+        ### Justification: 
+        [Your detailed reasoning here]
+    </output>
 </evaluation_task>
 """

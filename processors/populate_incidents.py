@@ -5,19 +5,19 @@ from connectors.atlas_connection import AtlasConnection
 from processors.embeddings import EmbeddingModel
 from processors.user_query_processor import UserQueryProcessor
 from processors.llm_processor import LLMProcessor
-from dotenv import load_dotenv
-
-load_dotenv()
+from utils.secrets_helper import get_secret
+from utils.config import DB_NAME, COLLECTION_NAME, INCIDENTS_PATH
 # Gitlab connectionp
 
-if not os.path.exists(os.getenv("INCIDENTS_PATH")):
+
+if not os.path.exists(INCIDENTS_PATH):
     gl = GitlabConnection()
     gl_project = gl.get_project()
     incidents = gl.get_incidents(gl_project)
-    gl.save_incidents(incidents, os.getenv("INCIDENTS_PATH"))
+    gl.save_incidents(incidents, INCIDENTS_PATH)
 
 
-with open(os.getenv("INCIDENTS_PATH"), "rb") as f:
+with open(INCIDENTS_PATH, "rb") as f:
     incidents = pickle.load(f)
 print(f"Total incidents loaded: {len(incidents)}")
 # print(incidents[0])
@@ -37,7 +37,7 @@ print("Connected to Atlas instance! We are good to go!")
 incidents_converted = [incident.attributes for incident in incidents]
 
 #insert into MongDB
-collection_name = "incidents"
+collection_name = COLLECTION_NAME
 if collection_name not in atlas_client.database.list_collection_names():
     collection = atlas_client.get_collection(collection_name)
     collection.create_index("id", unique=True)

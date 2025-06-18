@@ -1,0 +1,5 @@
+DB_NAME='gitlab'
+COLLECTION_NAME='incidents'
+GITLAB_URL='https://gitlab.com'
+GITLAB_PROJECT_URL='gitlab-com/gl-infra/production'
+INCIDENTS_PATH='data/incidents.pkl'

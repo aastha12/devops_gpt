@@ -1,15 +1,12 @@
 from google import genai
-import os
 from processors.rc_prompt import ROOTCAUSE_PROMPT
-from dotenv import load_dotenv
 import re
 from google.genai.types import GenerateContentConfig
-
-load_dotenv()
+from utils.secrets_helper import get_secret
 
 class LLMProcessor:
     def __init__(self):
-        GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+        GOOGLE_API_KEY = get_secret("google-api-key", "GOOGLE_API_KEY")
         self.client = genai.Client(api_key=GOOGLE_API_KEY)
 
     def get_response(self, prompt: str) -> str:

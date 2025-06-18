@@ -7,11 +7,11 @@ name = "pypi"
 python-gitlab = "*"
 tqdm = "*"
 pymongo = {extras = ["srv"], version = "*"}
-sentence-transformers = "*"
 dotenv = "*"
 google-genai = "*"
 streamlit = "*"
-transformers = "*"
+google-cloud-secret-manager = "*"
+requests = "*"
 
 [dev-packages]
 

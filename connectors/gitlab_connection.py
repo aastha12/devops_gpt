@@ -2,19 +2,19 @@ import gitlab
 from tqdm import tqdm
 import pickle
 import logging
-import os
-from dotenv import load_dotenv
-load_dotenv()
+from utils.secrets_helper import get_secret
+from utils.config import GITLAB_URL, GITLAB_PROJECT_URL
 logging.basicConfig(level=logging.INFO)
 
 class GitlabConnection:
     def __init__(self):
-        self.gl = gitlab.Gitlab(url=os.getenv("GITLAB_URL"),private_token=os.getenv("GITLAB_TOKEN"))
+        gitlab_token = get_secret("gitlab-token", "GITLAB_TOKEN")
+        self.gl = gitlab.Gitlab(url=GITLAB_URL,private_token=gitlab_token)
         self.gl.auth()
         self.gl.enable_debug()
     
     def get_project(self):
-        return self.gl.projects.get(os.getenv("GITLAB_PROJECT_URL"))
+        return self.gl.projects.get(GITLAB_PROJECT_URL)
     
     def get_incidents(self,project):
         incidents = []
