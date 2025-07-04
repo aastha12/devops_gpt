@@ -1,4 +1,4 @@
-# 🛠️ Project Plan: DevOps GPT 
+# 🛠️ Project: DevOps GPT 
 
 You can visit the app here: https://devpost-ai-app-422329233863.us-central1.run.app
 
@@ -40,7 +40,7 @@ Status: Critical - blocking all releases
 - App does:
     - Embed the input
     - Query MongoDB to find 3 most similar incidents
-    - Use LLM (OpenAI, Claude, or Gemini) to:
+    - Use LLM (Gemini 2.0 Flash) to:
         - Summarize common root causes
         - Recommend first troubleshooting steps
     - Use LLM-as-Judge to evaluate responses
