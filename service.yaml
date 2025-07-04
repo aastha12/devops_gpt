@@ -8,15 +8,15 @@ spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/maxScale: "10"
+        autoscaling.knative.dev/maxScale: "3"
         run.googleapis.com/vpc-access-connector: "mongodb-connector"
         run.googleapis.com/vpc-access-egress: "all-traffic"
-        run.googleapis.com/cpu-throttling: "false"
+        run.googleapis.com/cpu-throttling: "true"
     spec:
       containerConcurrency: 80
-      timeoutSeconds: 900
+      timeoutSeconds: 300
       containers:
-      - image: gcr.io/devpost-ai-in-action/devpost-ai-app
+      - image: gcr.io/devpost-ai-in-action/devpost-ai-app:1751596867
         ports:
         - containerPort: 8080
         env:
@@ -32,15 +32,30 @@ spec:
           value: "gitlab-com/gl-infra/production"
         - name: INCIDENTS_PATH
           value: "data/incidents.pkl"
+        - name: ATLAS_URI
+          valueFrom:
+            secretKeyRef:
+              name: atlas-uri
+              key: latest
+        - name: HUGGING_FACE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: huggingface-api-token
+              key: latest              
+        - name: GOOGLE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: google-api-key
+              key: latest          
         resources:
           limits:
-            cpu: "2"
-            memory: "4Gi"
+            cpu: "1"
+            memory: "2Gi"
         startupProbe:
           httpGet:
-            path: /
+            path: /_stcore/health
             port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 30
-          timeoutSeconds: 10
-          failureThreshold: 10
+          initialDelaySeconds: 80
+          periodSeconds: 40
+          timeoutSeconds: 20
+          failureThreshold: 20

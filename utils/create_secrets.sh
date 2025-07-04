@@ -20,9 +20,9 @@ if [ -z "$GITLAB_TOKEN" ]; then
 fi
 
 # Method 1: Use printf instead of echo -n (most reliable)
-printf "%s" "$GOOGLE_API_KEY" | gcloud secrets create google-api-key --data-file=- --project=devpost-ai-in-action
-printf "%s" "$ATLAS_URI" | gcloud secrets create atlas-uri --data-file=- --project=devpost-ai-in-action  
-printf "%s" "$GITLAB_TOKEN" | gcloud secrets create gitlab-token --data-file=- --project=devpost-ai-in-action
+printf "%s" "$GOOGLE_API_KEY" | tr -d '\n' | gcloud secrets create google-api-key --data-file=- --project=devpost-ai-in-action
+printf "%s" "$ATLAS_URI" | tr -d '\n' | gcloud secrets create atlas-uri --data-file=- --project=devpost-ai-in-action  
+printf "%s" "$GITLAB_TOKEN" | tr -d '\n' | gcloud secrets create gitlab-token --data-file=- --project=devpost-ai-in-action
 
 echo "Secrets created successfully!"
 

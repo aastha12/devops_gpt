@@ -11,6 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
+# Cache buster: 2025-07-02 21:35:00
 COPY . .
 
 # Set environment variables for optimization
@@ -30,13 +31,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl --fail http://localhost:8080/_stcore/health || exit 1
 
 # Run Streamlit with optimized settings
-CMD ["streamlit", "run", "app.py", \
-     "--server.port=8080", \
-     "--server.address=0.0.0.0", \
-     "--server.headless=true", \
-     "--server.fileWatcherType=none", \
-     "--browser.gatherUsageStats=false", \
-     "--server.enableCORS=false", \
-     "--server.enableXsrfProtection=false", \
-     "--server.maxUploadSize=50", \
-     "--server.maxMessageSize=50"]
+CMD ["streamlit", "run", "app.py",      "--server.port=8080",      "--server.address=0.0.0.0",      "--server.headless=true",      "--server.fileWatcherType=none",      "--browser.gatherUsageStats=false",      "--server.enableCORS=false",      "--server.enableXsrfProtection=false",      "--server.maxUploadSize=50",      "--server.maxMessageSize=50"]

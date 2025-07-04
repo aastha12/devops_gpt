@@ -2,7 +2,6 @@
 
 You can visit the app here: https://devpost-ai-app-422329233863.us-central1.run.app
 
-### TODO: add BAML
 
 ## 🔹 Goal:
 
@@ -45,6 +44,12 @@ Status: Critical - blocking all releases
         - Summarize common root causes
         - Recommend first troubleshooting steps
     - Use LLM-as-Judge to evaluate responses
+
+## App Screenshot
+
+![Alt text](images/ss_1.png)
+
+![Alt text](images/ss_2.png)
 
 
 ## Deployment
@@ -141,5 +146,10 @@ gcloud run deploy devpost-ai-app \
   --vpc-connector mongodb-connector \
   --vpc-egress all-traffic \
   --set-env-vars="GOOGLE_CLOUD_PROJECT=$PROJECT_ID,DB_NAME=gitlab,COLLECTION_NAME=incidents,GITLAB_URL=https://gitlab.com,GITLAB_PROJECT_URL=gitlab-com/gl-infra/production,INCIDENTS_PATH=data/incidents.pkl"
+```
+
+or 
+```bash
+gcloud run services replace service.yaml --region us-central1
 ```
 

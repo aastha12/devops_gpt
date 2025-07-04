@@ -12,6 +12,8 @@ google-genai = "*"
 streamlit = "*"
 google-cloud-secret-manager = "*"
 requests = "*"
+flask = "*"
+baml-py = "==0.90.2"
 
 [dev-packages]
 
